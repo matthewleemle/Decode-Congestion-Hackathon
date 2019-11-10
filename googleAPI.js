@@ -1,13 +1,39 @@
 const fetch = require("node-fetch");
 
-var origin = "999 Canada Pl, Vancouver, BC V6C 3T4";
-var destination = "10153 King George Blvd, Surrey, BC V3T 2W1";
 
 
-var json = getTransitData(origin,destination)
-  .then(json=>console.log(json));
 
 
+async function getRouteData(park1,park2,park3,destination){
+
+  var transitData1 = await getTransitJSON(park1, destination);
+  var transitData2 = await getTransitJSON(park2, destination);
+  var transitData3 = await getTransitJSON(park3, destination);
+
+    routes = []
+
+    routes.push({
+      "driving destination": park1,
+      "Transit route": transitData1
+    });
+
+    routes.push({
+      "driving destination": park2,
+      "Transit route": transitData2
+    });
+
+    routes.push(
+    {
+    "driving destination": park3,
+    "Transit route": transitData3
+    });
+
+    let routeData = {
+      "routes": routes
+    };
+
+  return routeData;
+}
 
 
 async function getTransitData(origin,destination){
@@ -23,7 +49,6 @@ async function getTransitData(origin,destination){
 
 
 async function getTransitJSON(origin, destination){
-
     let response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&mode=transit&key=AIzaSyCWle8TgNqMNLNqj3mdeXmkU7ej0xfZAyA`);
     let data = await response.json();
 
@@ -58,5 +83,5 @@ async function getcoordinatesJSON(location){
  }
 
  module.exports = {
-   getTransitData
+   getRouteData
  }
