@@ -1,5 +1,6 @@
-const process = require(processes);
-
+var process = require("./processes")
+var express = require("express");
+var bodyParser = require("body-parser");
 const port = 3000;
 const app = express()
 app.use(express.static(__dirname + "/../public"));
@@ -10,4 +11,8 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-app.get("/getroute",process.returnRoute());
+app.post("/getroute",process.returnRoute);
+
+app.listen(port, function () {
+  console.log(`Server is running on port ${port}`);
+});

@@ -1,12 +1,20 @@
-function returnRoute(req,res){
+const maps = require("./googleAPI");
+
+
+async function returnRoute(req,res){
+
   var from = req.body.from;
   var destination = req.body.destination;
 
-  var return_json = getJSON();
-  res.status(200).json({return_json});
+  var json = await maps.getTransitData(from,destination);
+
+  res.status(200).send(json);
+
+
+
+
 }
 
-
-function getJSON(){
-  ///
+module.exports = {
+  returnRoute
 }
