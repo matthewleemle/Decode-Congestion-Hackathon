@@ -1,9 +1,6 @@
 const fetch = require("node-fetch");
 
 
-
-
-
 async function getRouteData(park1,park2,park3,destination){
 
   var transitData1 = await getTransitJSON(park1, destination);
@@ -37,8 +34,8 @@ async function getRouteData(park1,park2,park3,destination){
 
 
 async function getTransitData(origin,destination){
-  var coordStrOrigin = await getcoordinatesJSON(origin);
-  var coordStrDest = await getcoordinatesJSON(destination);
+  var coordStrOrigin = await getcoordinatesStr(origin);
+  var coordStrDest = await getcoordinatesStr(destination);
 
   var data = await getTransitJSON(coordStrOrigin,coordStrDest);
 
@@ -71,7 +68,7 @@ async function getTransitJSON(origin, destination){
 }
 
 
-async function getcoordinatesJSON(location){
+async function getcoordinatesStr(location){
   let response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=AIzaSyCWle8TgNqMNLNqj3mdeXmkU7ej0xfZAyA`);
   let data = await response.json();
   var latitude=data.results[0].geometry.location.lat;
